@@ -6,7 +6,7 @@ Plugin URI: https://nicheaddons.com/demos/restaurant
 Description: Restaurant & Cafe Addon for Elementor covers all the must-needed elements for creating a perfect Restaurant website using Elementor Page Builder. 50+ Unique & Basic Elementor widget covers all of the Restaurant elements.
 Author: NicheAddons
 Author URI: https://nicheaddons.com/
-Version: 1.5.6
+Version: 1.5.7
 Text Domain: restaurant-cafe-addon-for-elementor
 */
 include_once ABSPATH . 'wp-admin/includes/plugin.php';

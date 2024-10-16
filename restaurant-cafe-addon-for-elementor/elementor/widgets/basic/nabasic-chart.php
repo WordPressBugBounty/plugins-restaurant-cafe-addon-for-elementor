@@ -459,174 +459,97 @@ if ( rcafe_fs()->is_free_plan() ) {
 			$this->end_controls_section();// end: Section
 
 		}
-
 		/**
 		 * Render Chart widget output on the frontend.
 		 * Written in PHP and used to generate the final HTML.
 		*/
 		protected function render() {
-			// Chart query
-			$settings = $this->get_settings_for_display();
 
-			$chart_type = !empty( $settings['chart_type'] ) ? $settings['chart_type'] : '';
-			$opt_legend  = ( isset( $settings['opt_legend'] ) && ( 'yes' == $settings['opt_legend'] ) ) ? true : false;
-			$opt_legend_pos = !empty( $settings['opt_legend_pos'] ) ? $settings['opt_legend_pos'] : '';
-			$horizontal_bar  = ( isset( $settings['horizontal_bar'] ) && ( 'yes' == $settings['horizontal_bar'] ) ) ? true : false;
-			$x_values = !empty( $settings['x_values'] ) ? $settings['x_values'] : '';
-			$max_value = !empty( $settings['max_value'] ) ? $settings['max_value'] : '';
-			$min_value = !empty( $settings['min_value'] ) ? $settings['min_value'] : '';
-			$hidex_gridlines  = ( isset( $settings['hidex_gridlines'] ) && ( 'yes' == $settings['hidex_gridlines'] ) ) ? true : false;
-			$hidey_gridlines  = ( isset( $settings['hidey_gridlines'] ) && ( 'yes' == $settings['hidey_gridlines'] ) ) ? true : false;
-			$step_value = !empty( $settings['step_value'] ) ? $settings['step_value'] : '';
+            $settings = $this->get_settings_for_display();
 
-			// Atts
-	    if ($chart_type === 'bar') {
-	      if ($horizontal_bar) {
-	        $chart_type = 'horizontalBar';
-	      } else {
-	        $chart_type = 'bar';
-	      }
-	    } else {
-	      $horizontal_bar = $chart_type;
-	    }
+            $chart_type = !empty( $settings['chart_type'] ) ? $settings['chart_type'] : '';
+            $opt_legend = ( isset( $settings['opt_legend'] ) && ( 'yes' == $settings['opt_legend'] ) ) ? 'true' : 'false';
+            $opt_legend_pos = !empty( $settings['opt_legend_pos'] ) ? $settings['opt_legend_pos'] : '';
+            $horizontal_bar = ( isset( $settings['horizontal_bar'] ) && ( 'yes' == $settings['horizontal_bar'] ) ) ? 'true' : 'false';
+            $x_values = !empty( $settings['x_values'] ) ? $settings['x_values'] : '';
+            $max_value = !empty( $settings['max_value'] ) ? $settings['max_value'] : '';
+            $min_value = !empty( $settings['min_value'] ) ? $settings['min_value'] : '';
+            $hidex_gridlines = ( isset( $settings['hidex_gridlines'] ) && ( 'yes' == $settings['hidex_gridlines'] ) ) ? 'true' : 'false';
+            $hidey_gridlines = ( isset( $settings['hidey_gridlines'] ) && ( 'yes' == $settings['hidey_gridlines'] ) ) ? 'true' : 'false';
+            $step_value = !empty( $settings['step_value'] ) ? $settings['step_value'] : '';
 
-	    // Unique ID
-	    $chart_uniqid   = uniqid( 'chart_' );
+            // Unique ID
+            $chart_uniqid = uniqid( 'chart_' );
 
-	    // X Values
-	    $x_values = explode( ';', trim( $x_values, ';' ) );
+            // X Values
+            $x_values = explode( ';', trim( $x_values, ';' ) );
 
-	    // Param Group Values
-			$line_values = !empty( $settings['line_values'] ) ? $settings['line_values'] : [];
-			$circle_values = !empty( $settings['circle_values'] ) ? $settings['circle_values'] : [];
+            // Param Group Values
+            $line_values = !empty( $settings['line_values'] ) ? $settings['line_values'] : [];
+            $circle_values = !empty( $settings['circle_values'] ) ? $settings['circle_values'] : [];
 
-	    // Get Values
-			$data = array(
-	      'labels'   => $x_values,
-	      'datasets' => array()
-			);
-			// Chart Datasets
-	    if ( $chart_type !== 'pie' ) {
-	      foreach ( $line_values as $key => $value ) {
+            // Prepare data for JSON encoding
+            $chart_data = [
+                'type' => $chart_type,
+                'labels' => $x_values,
+                'datasets' => [],
+                'options' => [
+                    'legend' => [
+                        'display' => $opt_legend,
+                        'position' => $opt_legend_pos
+                    ],
+                    'horizontalBar' => $horizontal_bar,
+                    'scales' => [
+                        'yAxes' => [[
+                            'ticks' => [
+                                'max' => $max_value,
+                                'min' => $min_value,
+                                'stepSize' => $step_value
+                            ],
+                            'gridLines' => [
+                                'display' => !$hidey_gridlines
+                            ]
+                        ]],
+                        'xAxes' => [[
+                            'gridLines' => [
+                                'display' => !$hidex_gridlines
+                            ]
+                        ]]
+                    ]
+                ]
+            ];
 
-	        $color = $value['bg_color'];
-	        $point_color = $value['point_color'];
-	        $border_color = $value['border_color'];
-	        $point_border_color = $value['point_border_color'];
-	        // $opt_mixed = $value['opt_mixed'];
+            if ($chart_type !== 'pie') {
+                foreach ($line_values as $value) {
+                    $chart_data['datasets'][] = [
+                        'label' => isset($value['chart_title']) ? $value['chart_title'] : '',
+                        'data' => explode(';', isset($value['y_values']) ? trim($value['y_values'], ';') : ''),
+                        'borderColor' => $value['border_color'],
+                        'pointBorderColor' => $value['point_border_color'],
+                        'pointBackgroundColor' => $value['point_color'],
+                        'backgroundColor' => $value['bg_color'],
+                        'borderWidth' => isset($value['border_width']) ? $value['border_width'] : '1',
+                        'pointBorderWidth' => isset($value['point_width']) ? $value['point_width'] : '2',
+                        'pointRadius' => isset($value['point_radius']) ? $value['point_radius'] : '4',
+                        'pointHoverRadius' => isset($value['point_hover_radius']) ? $value['point_hover_radius'] : '4',
+                    ];
+                }
+            } else {
+                $chart_data['datasets'][] = [
+                    'data' => array_column($circle_values, 'values'),
+                    'backgroundColor' => array_column($circle_values, 'bg_color'),
+                    'borderWidth' => [4, 4, 4]
+                ];
+                $chart_data['labels'] = array_column($circle_values, 'chart_title');
+            }
 
-	        $data['datasets'][] = array(
-	          'label'                 => isset( $value['chart_title'] ) ? $value['chart_title'] : '',
-	          'data'                  => explode( ';', isset( $value['y_values'] ) ? trim( $value['y_values'], ';' ) : '' ),
-	          'borderColor'           => $border_color,
-	          'pointBorderColor'      => $point_border_color,
-	          'pointBackgroundColor'  => $point_color,
-	          'backgroundColor'       => $color,
-	          'borderWidth'           => isset( $value['border_width'] ) ? $value['border_width'] : '1',
-	          'pointBorderWidth'      => isset( $value['point_width'] ) ? $value['point_width'] : '2',
-	          'pointRadius'           => isset( $value['point_radius'] ) ? $value['point_radius'] : '4',
-	          'pointHoverRadius'      => isset( $value['point_hover_radius'] ) ? $value['point_hover_radius'] : '4',
-	          // 'lineTension'           => '0',
-	          // 'type'                  => $opt_mixed,
-	        );
-	      }
-	    }
+            // Encode the data for the data attribute
+            $chart_data_json = json_encode($chart_data);
 
-	    echo '<div class="narep-chart "><canvas id="'. esc_attr($chart_uniqid) .'" ></canvas></div>'; ?>
+            // Output the canvas with data attribute
+            echo '<div class="narep-chart"><canvas id="' . esc_attr($chart_uniqid) . '" data-chart=\'' . esc_attr($chart_data_json) . '\'></canvas></div>';			
 
-			<script type="text/javascript">
-
-		    jQuery(document).ready(function($) {
-		    	<?php if ($opt_legend == 'true') { $show_legend = 'true'; } else {	$show_legend = 'false'; } ?>
-
-		      // Global configs
-		      Chart.defaults.global.responsive = true;
-		      Chart.defaults.global.maintainAspectRatio = false;
-		      Chart.defaults.global.legend.display = <?php echo $show_legend; ?>;
-		      Chart.defaults.global.legend.position = <?php echo json_encode($opt_legend_pos); ?>;
-		      Chart.defaults.global.tooltips.backgroundColor = 'rgba(35,35,35,0.9)';
-		      Chart.defaults.global.tooltips.bodyFontSize = 13;
-		      Chart.defaults.global.tooltips.bodyFontStyle = 'bold';
-		      Chart.defaults.global.tooltips.yPadding = 13;
-		      Chart.defaults.global.tooltips.xPadding = 10;
-		      Chart.defaults.doughnut.cutoutPercentage = 60;
-
-		      // Line Chart
-		      var <?php echo esc_js( $chart_uniqid ); ?> = document.getElementById("<?php echo esc_js( $chart_uniqid ); ?>").getContext("2d");
-
-		      var <?php echo esc_js( $chart_uniqid ); ?>_myChart = new Chart(<?php echo esc_js( $chart_uniqid ); ?>, {
-		        type: '<?php echo esc_js( $chart_type ); ?>',
-		        <?php if ( $chart_type === 'pie' ) { ?>
-		          data: {
-		            labels: [
-		              <?php foreach ( $circle_values as $value ) { ?>
-		              "<?php echo esc_js($value['chart_title']); ?>",
-		              <?php } ?>
-		            ],
-		            datasets: [
-		              {
-		                data: [
-		                  <?php foreach ( $circle_values as $value ) { ?>
-		                  <?php echo esc_js($value['values']); ?>,
-		                  <?php } ?>
-		                ],
-		                backgroundColor: [
-		                  <?php foreach ( $circle_values as $value ) { ?>
-		                  "<?php echo esc_js($value['bg_color']); ?>",
-		                  <?php } ?>
-		                ],
-		                borderWidth: [4, 4, 4]
-		              }
-		            ]
-		          },
-		        <?php } else { ?>
-		          data: <?php echo json_encode( $data ); ?>,
-		        <?php } if ( $chart_type === 'bar' || $chart_type === 'horizontalBar' ) { ?>
-		        options: {
-		        responsive: true,
-		          scales: {
-		            yAxes: [{
-		              <?php if ($chart_type !== 'horizontalBar' || $chart_type === 'bar') { ?>
-		              ticks: {
-		                max: <?php echo esc_js($max_value); ?>,
-		                min: <?php echo esc_js($min_value); ?>,
-		                stepSize: <?php echo esc_js($step_value); ?>,
-		                stacked: true,
-		              },
-		              <?php } if ($hidey_gridlines) { ?>
-		              gridLines: {
-		                color: "rgba(0, 0, 0, 0)",
-		                <?php if ($chart_type === 'bar') { ?>
-		                zeroLineColor: 'rgba(0, 0, 0, 0)',
-		                <?php } ?>
-		              }
-		              <?php } ?>
-		            }],
-		            xAxes: [{
-		              <?php if ($chart_type === 'horizontalBar') { ?>
-		                ticks: {
-		                  max: <?php echo esc_js($max_value); ?>,
-		                  min: <?php echo esc_js($min_value); ?>,
-		                  stepSize: <?php echo esc_js($step_value); ?>,
-		                  stacked: true,
-		                },
-		              <?php } if ($hidex_gridlines) { ?>
-		              gridLines: {
-		                color: "rgba(0, 0, 0, 0)",
-		                zeroLineColor: 'rgba(0, 0, 0, 0)',
-		              }
-		              <?php } ?>
-		            }],
-		          }
-		        }
-		        <?php } ?>
-		      });
-
-		    });
-		  </script>
-
-		<?php }
-
+		}
 	}
 	Plugin::instance()->widgets_manager->register_widget_type( new Restaurant_Elementor_Addon_Chart() );
 
