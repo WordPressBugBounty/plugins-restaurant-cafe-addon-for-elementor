@@ -1010,12 +1010,12 @@ class Restaurant_Elementor_Addon_Separator extends Widget_Base{
 			$border_rsub_class = 'sep-right';
 		}
 
-		$output = '<div class="narep-separator'.$align_class.$salign_class.$pos_class.$border_class.'">';
+		$output = '<div class="narep-separator'.esc_attr( $align_class.$salign_class.$pos_class.$border_class ).'">';
 							if ($separator_style === 'two') {
 							} else {
-			          $output .= '<span class="'.$border_lsub_class.'"></span><div class="narep-sep">'.$separator.'</div><span class="'.$border_rsub_class.'"></span>';
+			          $output .= '<span class="'.esc_attr( $border_lsub_class ).'"></span><div class="narep-sep">'.$separator.'</div><span class="'.esc_attr( $border_rsub_class ).'"></span>';
 							}
-    $output .= '</div>';
+    	$output .= '</div>';
 
 		echo $output;
 

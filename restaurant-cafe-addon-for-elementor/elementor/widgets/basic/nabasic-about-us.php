@@ -783,7 +783,7 @@ class Restaurant_Elementor_Addon_AboutUs extends Widget_Base{
 		$aboutus_btn_link_nofollow = !empty( $settings['aboutus_btn_link']['nofollow'] ) ? 'rel="nofollow"' : '';
 		$aboutus_btn_link_attr = !empty( $aboutus_btn_link ) ?  $aboutus_btn_link_external.' '.$aboutus_btn_link_nofollow : '';
 		$btn_icon = !empty( $settings['btn_icon'] ) ? $settings['btn_icon'] : '';
-  	$btn_icon = $btn_icon ? ' <i class="'.esc_attr($btn_icon).'"></i>' : '';
+  		$btn_icon = $btn_icon ? ' <i class="'.esc_attr($btn_icon).'"></i>' : '';
 		$listItems_groups = !empty( $settings['listItems_groups'] ) ? $settings['listItems_groups'] : '';
 		$toggle_align = !empty( $settings['toggle_align'] ) ? $settings['toggle_align'] : '';
 		$aboutus_sign_image = !empty( $settings['aboutus_sign_image']['id'] ) ? $settings['aboutus_sign_image']['id'] : '';

@@ -844,9 +844,9 @@ class Restaurant_Elementor_Addon_Services extends Widget_Base{
 			}
 	  }
 	  if($service_style === 'three') {
-			$output = '<div class="narep-service-item service-style-three'.$salign_class.'">'.$serv_image.'<div class="service-info"><div class="service-info-inner">'.$icon_main.$title.$content.'</div></div></div>';
+			$output = '<div class="narep-service-item service-style-three'.esc_attr( $salign_class ).'">'.$serv_image.'<div class="service-info"><div class="service-info-inner">'.$icon_main.$title.$content.'</div></div></div>';
 		} else {
-			$output = '<div class="narep-service-item'.$service_style_cls.$style_cls.$hover_cls.$border_cls.$salign_class.$img_class.$bg_cls.'">'.$icon_main.'<div class="service-info">'.$title.$content.$button.'</div></div>';
+			$output = '<div class="narep-service-item'.esc_attr($service_style_cls.$style_cls.$hover_cls.$border_cls.$salign_class.$img_class.$bg_cls).'">'.$icon_main.'<div class="service-info">'.$title.$content.$button.'</div></div>';
 		}
 		echo $output;
 

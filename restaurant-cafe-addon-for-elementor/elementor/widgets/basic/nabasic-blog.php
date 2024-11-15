@@ -1345,26 +1345,26 @@ class Restaurant_Elementor_Addon_Blog extends Widget_Base{
 			$pageDots = !empty( $settings['pageDots'] ) ? $settings['pageDots'] : '';
 
 		// Carousel Data's
-			$draggable = $draggable ? ' data-draggable="true"' : ' data-draggable="false"';
-			$freeScroll = $freeScroll ? ' data-freescroll="true"' : '';
-			$freeScrollFriction = $freeScrollFriction ? ' data-freescrollfriction="'.$freeScrollFriction.'"' : '';
-			$wrapAround = $wrapAround ? ' data-wraparound="true"' : ' data-wraparound="false"';
-			$groupCells = $groupCells ? ' data-groupcells="'.$groupCells.'"' : '';
-			$autoPlay = $autoPlay ? ' data-autoplay="'.$autoPlay.'"' : '';
-			$pauseAutoPlayOnHover = $pauseAutoPlayOnHover ? ' data-pauseautoplayonhover="true"' : '';
-			$adaptiveHeight = $adaptiveHeight ? ' data-adaptiveheight="true"' : '';
-			$dragThreshold = $dragThreshold ? ' data-dragthreshold="'.$dragThreshold.'"' : '';
-			$selectedAttraction = $selectedAttraction ? ' data-selectedattraction="'.$selectedAttraction.'"' : '';
-			$friction = $friction ? ' data-friction="'.$friction : '';
-			$initialIndex = $initialIndex ? ' data-initialindex="'.$initialIndex.'"' : '';
-			$accessibility = $accessibility ? ' data-accessibility="true"' : ' data-accessibility="false"';
-			$setGallerySize = $setGallerySize ? ' data-setgallerysize="true"' : ' data-setgallerysize="false"';
-			$resize = $resize ? ' data-resize="true"' : ' data-resize="false"';
-			$cellAlign = $cellAlign ? ' data-cellalign="'.$cellAlign.'"' : '';
-			$contain = $contain ? ' data-contain="true"' : '';
-			$rightToLeft = $rightToLeft ? ' data-righttoleft="true"' : '';
-			$prevNextButtons = $prevNextButtons ? ' data-prevnextbuttons="true"' : ' data-prevnextbuttons="false"';
-			$pageDots = $pageDots ? ' data-pagedots="true"' : ' data-pagedots="false"';
+			$draggable = $draggable ? 'true' : 'false';
+			$freeScroll = $freeScroll ? 'true' : '';
+			$freeScrollFriction = $freeScrollFriction ? $freeScrollFriction: '';
+			$wrapAround = $wrapAround ? 'true' : 'false';
+			$groupCells = $groupCells ? $groupCells : '';
+			$autoPlay = $autoPlay ? $autoPlay : '';
+			$pauseAutoPlayOnHover = $pauseAutoPlayOnHover ? 'true' : '';
+			$adaptiveHeight = $adaptiveHeight ? 'true' : '';
+			$dragThreshold = $dragThreshold ? $dragThreshold : '';
+			$selectedAttraction = $selectedAttraction ? $selectedAttraction : '';
+			$friction = $friction ? $friction : '';
+			$initialIndex = $initialIndex ? $initialIndex : '';
+			$accessibility = $accessibility ? 'true' : 'false';
+			$setGallerySize = $setGallerySize ? 'true' : 'false';
+			$resize = $resize ? 'true' : 'false';
+			$cellAlign = $cellAlign ? $cellAlign : '';
+			$contain = $contain ? 'true' : '';
+			$rightToLeft = $rightToLeft ? 'true' : '';
+			$prevNextButtons = $prevNextButtons ? 'true' : 'false';
+			$pageDots = $pageDots ? 'true' : 'false';
 
 		$blog_col = $blog_col ? $blog_col : '3';
 
@@ -1407,9 +1407,9 @@ class Restaurant_Elementor_Addon_Blog extends Widget_Base{
 			$blog_show_id = json_encode( $blog_show_id );
 			$blog_show_id = str_replace(array( '[', ']' ), '', $blog_show_id);
 			$blog_show_id = str_replace(array( '"', '"' ), '', $blog_show_id);
-      $blog_show_id = explode(',',$blog_show_id);
+      		$blog_show_id = explode(',',$blog_show_id);
     } else {
-      $blog_show_id = '';
+      		$blog_show_id = '';
     }
 
 		$args = array(
@@ -1420,14 +1420,35 @@ class Restaurant_Elementor_Addon_Blog extends Widget_Base{
 		  'category_name' => implode(',', $blog_show_category),
 		  'orderby' => $blog_orderby,
 		  'order' => $blog_order,
-      'post__in' => $blog_show_id,
+      		'post__in' => $blog_show_id,
 		);
 
 		$narestaurant_post = new \WP_Query( $args );
 		if ($narestaurant_post->have_posts()) : ?>
 		<div class="narep-blog-wrap<?php echo esc_attr($style_class); ?>">
 			<?php if ($blog_style === 'three') { ?>
-			<div class="flick-carousel" <?php echo $cellAlign . $draggable . $freeScroll . $freeScrollFriction . $wrapAround . $groupCells . $autoPlay . $pauseAutoPlayOnHover . $adaptiveHeight . $dragThreshold . $selectedAttraction . $friction . $initialIndex . $accessibility . $setGallerySize . $resize . $contain . $rightToLeft . $prevNextButtons . $pageDots; ?>>
+				<div class="flick-carousel"
+				    <?php if ($cellAlign) : ?>data-cellalign="<?php echo esc_attr($cellAlign); ?>"<?php endif; ?>
+				    data-draggable="<?php echo esc_attr($draggable); ?>"
+				    <?php if ($freeScroll) : ?>data-freescroll="<?php echo esc_attr($freeScroll); ?>"<?php endif; ?>
+				    <?php if ($freeScrollFriction) : ?>data-freescrollfriction="<?php echo esc_attr($freeScrollFriction); ?>"<?php endif; ?>
+				    data-wraparound="<?php echo esc_attr($wrapAround); ?>"
+				    <?php if ($groupCells) : ?>data-groupcells="<?php echo esc_attr($groupCells); ?>"<?php endif; ?>
+				    <?php if ($autoPlay) : ?>data-autoplay="<?php echo esc_attr($autoPlay); ?>"<?php endif; ?>
+				    <?php if ($pauseAutoPlayOnHover) : ?>data-pauseautoplayonhover="<?php echo esc_attr($pauseAutoPlayOnHover); ?>"<?php endif; ?>
+				    <?php if ($adaptiveHeight) : ?>data-adaptiveheight="<?php echo esc_attr($adaptiveHeight); ?>"<?php endif; ?>
+				    <?php if ($dragThreshold) : ?>data-dragthreshold="<?php echo esc_attr($dragThreshold); ?>"<?php endif; ?>
+				    <?php if ($selectedAttraction) : ?>data-selectedattraction="<?php echo esc_attr($selectedAttraction); ?>"<?php endif; ?>
+				    <?php if ($friction) : ?>data-friction="<?php echo esc_attr($friction); ?>"<?php endif; ?>
+				    <?php if ($initialIndex) : ?>data-initialindex="<?php echo esc_attr($initialIndex); ?>"<?php endif; ?>
+				    data-accessibility="<?php echo esc_attr($accessibility); ?>"
+				    data-setgallerysize="<?php echo esc_attr($setGallerySize); ?>"
+				    data-resize="<?php echo esc_attr($resize); ?>"
+				    <?php if ($contain) : ?>data-contain="<?php echo esc_attr($contain); ?>"<?php endif; ?>
+				    <?php if ($rightToLeft) : ?>data-righttoleft="<?php echo esc_attr($rightToLeft); ?>"<?php endif; ?>
+				    data-prevnextbuttons="<?php echo esc_attr($prevNextButtons); ?>"
+				    data-pagedots="<?php echo esc_attr($pageDots); ?>"
+				>
 			<?php } else { ?>
 			<div class="nich-row">
 			<?php } ?>
@@ -1435,8 +1456,8 @@ class Restaurant_Elementor_Addon_Blog extends Widget_Base{
 			<?php while ($narestaurant_post->have_posts()) : $narestaurant_post->the_post();
 
 			global $post;
-		  $large_image =  wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()), 'fullsize', false, '' );
-		  $large_image = $large_image[0];
+		  	$large_image =  wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()), 'fullsize', false, '' );
+		  	$large_image = $large_image[0];
 			$cat_list = get_the_category();
 
 		  if ($large_image && $blog_image) {

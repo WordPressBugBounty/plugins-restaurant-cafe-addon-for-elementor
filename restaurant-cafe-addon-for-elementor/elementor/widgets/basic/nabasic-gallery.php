@@ -978,15 +978,15 @@ class Restaurant_Elementor_Addon_Gallery extends Widget_Base{
 
 				$link_image = $image_link ? '<a href="'.esc_url($image_link).'" '.$image_link_attr.'><img src="'.esc_url($image_url).'" alt="'.esc_attr($gallery_title).'"></a>' : '<img src="'.esc_url($image_url).'" alt="'.esc_attr($gallery_title).'">';
 
-				$max_height = $height ? ' style="max-height: '.$height.$unit.';"' : '';
+				$max_height = $height ? ' style="max-height: '.esc_attr($height).esc_attr($unit).';"' : '';
 
 				$image = $image_url ? '<div class="narep-image'.esc_attr($popup_class).'"'.$max_height.'>'.$link_image.$icon_popup.'</div>' : '';
 
-				$category = $filter_cat ? ' data-category="'. str_replace(', ', " ", strtolower($filter_cat)) .'"' : '';
+				$category = $filter_cat ? ' data-category="'. str_replace(', ', " ", strtolower(esc_attr($filter_cat))) .'"' : '';
 				$category_class = $filter_cat ? ' '.str_replace(', ', " ", strtolower($filter_cat)) : '';
 
-			  $output .= '<div class="masonry-item'.$category_class.' '.$gallery_col.'"'.$category.'>
-			  							<div class="narep-gallery-item'.$hover_class.$style_class.'">';
+			  $output .= '<div class="masonry-item'.esc_attr($category_class.' '.$gallery_col).'"'.$category.'>
+			  							<div class="narep-gallery-item'.esc_attr($hover_class.$style_class).'">';
 			  							if ($gallery_style === 'two') {$output .= '<div class="gallery-info-wrap">';}
 		  									$output .= $image.'
 			  								<div class="gallery-info">'.$title.$subtitle.'</div>';

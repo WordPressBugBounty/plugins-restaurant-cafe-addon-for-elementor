@@ -892,7 +892,7 @@ class Restaurant_Elementor_Addon_History extends Widget_Base{
 				if ($history_style === 'vertical') {
 					$output .= '<div class="narep-history-item"><div class="history-info'.esc_attr($height_class).'"><span></span>'.$title.$content.$button.'</div><div class="history-image"><div class="history-image-wrap">'.$year.$history_image.'</div></div></div>';
 				} else {
-			  	$output .= '<div class="narep-history-item"><div class="history-info'.esc_attr($height_class).'"><span></span>'.$year.$title.$content.$button.'</div><div class="history-image">'.$history_image.'</div></div>';
+			  		$output .= '<div class="narep-history-item"><div class="history-info'.esc_attr($height_class).'"><span></span>'.$year.$title.$content.$button.'</div><div class="history-image">'.$history_image.'</div></div>';
 				}
 
 			}

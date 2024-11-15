@@ -334,8 +334,8 @@ class Restaurant_Elementor_Addon_SectionTitle extends Widget_Base{
 		$title_image = !empty( $settings['title_image']['id'] ) ? $settings['title_image']['id'] : '';
 		$title_image_url = wp_get_attachment_url( $title_image );
 
-		$section_title = $section_title ? '<h3>'.$section_title.'</h3>' : '';
-		$section_sub_title = $section_sub_title ? '<h4>'.$section_sub_title.'</h4>' : '';
+		$section_title = $section_title ? '<h3>'.esc_html( $section_title ).'</h3>' : '';
+		$section_sub_title = $section_sub_title ? '<h4>'.esc_html( $section_sub_title ).'</h4>' : '';
 		$title_image = $title_image_url ? '<div class="narep-image"><img src="'.esc_url($title_image_url).'" alt="Icon"></div>' : '';
 
 		// Turn output buffer on

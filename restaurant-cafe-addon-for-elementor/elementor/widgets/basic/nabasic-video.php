@@ -895,14 +895,14 @@ class Restaurant_Elementor_Addon_Video extends Widget_Base{
 		}
 
 		if ($need_title) {
-			$video = $video_link ? '<a href="'.esc_url($video_link).'" class="narep-popup-video"><span class="narep-video-btn-wrap"><span class="narep-video-btn"><i class="fa fa-play" aria-hidden="true"></i>'.$animation.'</span>'.$title.'</span></a>' : '';
+			$video = $video_link ? '<a href="'.esc_url($video_link).'" class="narep-popup-video"><span class="narep-video-btn-wrap"><span class="narep-video-btn"><i class="fa fa-play" aria-hidden="true"></i>'.wp_kses_post( $animation ).'</span>'.$title.'</span></a>' : '';
 		} else {
-			$video = $video_link ? '<a href="'.esc_url($video_link).'" class="narep-video-btn narep-popup-video"><i class="fa fa-play" aria-hidden="true"></i>'.$animation.'</a>' : '';
+			$video = $video_link ? '<a href="'.esc_url($video_link).'" class="narep-video-btn narep-popup-video"><i class="fa fa-play" aria-hidden="true"></i>'.wp_kses_post( $animation ).'</a>' : '';
 		}
 		$title_image_url = wp_get_attachment_url( $title_image );
-		$section_title = $section_title ? '<h3>'.$section_title.'</h3>' : '';
-		$section_sub_title = $section_sub_title ? '<h4>'.$section_sub_title.'</h4>' : '';
-		$content = $content ? $content : '';
+		$section_title = $section_title ? '<h3>'.wp_kses_post($section_title).'</h3>' : '';
+		$section_sub_title = $section_sub_title ? '<h4>'.wp_kses_post($section_sub_title).'</h4>' : '';
+		$content = $content ? wp_kses_post($content) : '';
 		$title_image = $title_image_url ? '<div class="narep-image"><img src="'.esc_url($title_image_url).'" alt="Icon"></div>' : '';
 		$sign_image_url = wp_get_attachment_url( $sign_image );
 		$sign_image = $sign_image_url ? '<div class="sign-image"><img src="'.esc_url($sign_image_url).'" alt="Icon"></div>' : '';

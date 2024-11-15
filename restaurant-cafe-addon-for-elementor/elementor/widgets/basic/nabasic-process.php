@@ -894,7 +894,7 @@ class Restaurant_Elementor_Addon_Process extends Widget_Base{
 
 	 			  $title_link = !empty( $title_link ) ? '<a href="'.esc_url($title_link).'" '.$title_link_attr.'>'.esc_html($process_title).'</a>' : esc_html($process_title);
 			  	$title = !empty( $process_title ) ? '<h4 class="process-title">'.$title_link.'</h4>' : '';
-			  	$step_title = !empty( $step_title ) ? '<div class="narep-step-counter">'.$step_title.'</div>' : '';
+			  	$step_title = !empty( $step_title ) ? '<div class="narep-step-counter">'.esc_attr( $step_title ).'</div>' : '';
 					$content = $process_content ? '<p>'.esc_html($process_content).'</p>' : '';
 
 				  $output .= '<div class="narep-process-item">

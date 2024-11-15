@@ -267,59 +267,37 @@ class Restaurant_Elementor_Addon_ImageCompare extends Widget_Base{
 	 * Written in PHP and used to generate the final HTML.
 	*/
 	protected function render() {
-		$settings = $this->get_settings_for_display();
-		$compare_style = !empty( $settings['compare_style'] ) ? $settings['compare_style'] : [];
-		$starting_position = !empty( $settings['starting_position'] ) ? $settings['starting_position'] : [];
-		$need_title = !empty( $settings['need_title'] ) ? $settings['need_title'] : [];
-
-		if ($need_title) {
-			$title = 'true';
-		} else {
-			$title = 'false';
-		}
-
-		$before_image = !empty( $settings['before_image']['id'] ) ? $settings['before_image']['id'] : '';
-		$before_url = wp_get_attachment_url( $before_image );
-		$before_title = $settings['before_title'] ? $settings['before_title'] : '';
-
-		$after_image = !empty( $settings['after_image']['id'] ) ? $settings['after_image']['id'] : '';
-		$after_url = wp_get_attachment_url( $after_image );
-		$after_title = $settings['after_title'] ? $settings['after_title'] : '';
-
-		$compare_id = uniqid();
-		$id = rand(999, 9999);
-
-	  $output = '<div class="narep-compare-wrap"><div class="narep-compare compare-'.esc_attr($compare_id).'-'.esc_attr($id).'"></div></div>';
-
-		echo $output; ?>
-
-		<script type="text/javascript">
-
-	    jQuery(document).ready(function($) {
-
-	    	slider = new juxtapose.JXSlider('.compare-<?php echo esc_attr($compare_id); ?>-<?php echo esc_attr($id); ?>',
-		    [
-	        {
-            src: '<?php echo esc_url($before_url); ?>',
-            label: '<?php echo esc_attr($before_title); ?>',
-	        },
-	        {
-            src: '<?php echo esc_url($after_url); ?>',
-            label: '<?php echo esc_attr($after_title); ?>',
-	        }
-		    ],
-		    {
-	        animate: true,
-	        showLabels: <?php echo esc_attr($title); ?>,
-	        showCredits: false,
-	        startingPosition: "<?php echo esc_attr($starting_position); ?>%",
-	        makeResponsive: true,
-	        mode: "<?php echo esc_attr($compare_style); ?>",
-		    });
-
-	    });
-	  </script>
-	<?php
+	    $settings = $this->get_settings_for_display();
+	    $compare_style = !empty($settings['compare_style']) ? $settings['compare_style'] : '';
+	    $starting_position = !empty($settings['starting_position']) ? $settings['starting_position'] : '';
+	    $need_title = !empty($settings['need_title']) ? $settings['need_title'] : '';
+	    $title = $need_title ? 'true' : 'false';
+	    
+	    $before_image = !empty($settings['before_image']['id']) ? $settings['before_image']['id'] : '';
+	    $before_url = wp_get_attachment_url($before_image);
+	    $before_title = $settings['before_title'] ? $settings['before_title'] : '';
+	    
+	    $after_image = !empty($settings['after_image']['id']) ? $settings['after_image']['id'] : '';
+	    $after_url = wp_get_attachment_url($after_image);
+	    $after_title = $settings['after_title'] ? $settings['after_title'] : '';
+	    
+	    $compare_id = uniqid();
+	    $id = rand(999, 9999);
+	    $unique_class = 'compare-' . esc_attr($compare_id) . '-' . esc_attr($id);
+	    ?>
+	    
+	    <div class="narep-compare-wrap">
+	        <div class="narep-compare <?php echo esc_attr($unique_class); ?>"
+	            data-before-url="<?php echo esc_url($before_url); ?>"
+	            data-before-title="<?php echo esc_attr($before_title); ?>"
+	            data-after-url="<?php echo esc_url($after_url); ?>"
+	            data-after-title="<?php echo esc_attr($after_title); ?>"
+	            data-show-labels="<?php echo esc_attr($title); ?>"
+	            data-starting-position="<?php echo esc_attr($starting_position); ?>"
+	            data-compare-style="<?php echo esc_attr($compare_style); ?>">
+	        </div>
+	    </div>
+	    <?php
 	}
 
 }
