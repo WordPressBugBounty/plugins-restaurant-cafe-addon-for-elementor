@@ -10,19 +10,69 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! function_exists( 'narestaurant_insert_elementor' ) ) {
-	function narestaurant_insert_elementor($atts){
-	  if (!class_exists('Elementor\Plugin')){
-	      return '';
-	  }
-	  if (!isset($atts['id']) || empty($atts['id'])){
-	      return '';
-	  }
+    function narestaurant_insert_elementor($atts) {
+        // Check if Elementor exists
+        if (!class_exists('Elementor\Plugin')) {
+            return '';
+        }
 
-	  $post_id = $atts['id'];
-	  $response = Plugin::instance()->frontend->get_builder_content_for_display($post_id);
-	  return $response;
-	}
-	add_shortcode('narestaurant_elementor_template','Elementor\narestaurant_insert_elementor');
+        // Validate shortcode attributes
+        if (!isset($atts['id']) || empty($atts['id'])) {
+            return '';
+        }
+
+        $post_id = absint($atts['id']); // Sanitize the ID
+        
+        // Get the post
+        $post = get_post($post_id);
+        if (!$post) {
+            return '';
+        }
+
+        // Security checks
+        if (!is_user_logged_in()) {
+            // For non-logged in users, only show published posts
+            if ($post->post_status !== 'publish') {
+                return '';
+            }
+        } else {
+            // For logged-in users, check proper permissions
+            if (!current_user_can('read_post', $post_id)) {
+                return '';
+            }
+
+            // Additional status checks
+            $allowed_statuses = array('publish');
+            
+            // Allow draft/private viewing only for editors and admins
+            if (current_user_can('edit_posts')) {
+                $allowed_statuses[] = 'draft';
+                $allowed_statuses[] = 'private';
+            }
+
+            if (!in_array($post->post_status, $allowed_statuses)) {
+                return '';
+            }
+        }
+
+        // Verify post type supports Elementor
+        if (!current_theme_supports('elementor') && 
+            !in_array($post->post_type, get_post_types_by_support('elementor'))) {
+            return '';
+        }
+
+        // Get Elementor content with proper error handling
+        try {
+            $response = Plugin::instance()->frontend->get_builder_content_for_display($post_id);
+            return $response;
+        } catch (Exception $e) {
+            if (current_user_can('manage_options')) {
+                return sprintf('Elementor error: %s', esc_html($e->getMessage()));
+            }
+            return '';
+        }
+    }
+    add_shortcode('narestaurant_elementor_template', 'narestaurant_insert_elementor');
 }
 
 if ( !class_exists('NAREP_Controls_Helper_Output') ){
