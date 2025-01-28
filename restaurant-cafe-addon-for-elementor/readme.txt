@@ -6,7 +6,7 @@ Tags: restaurant, cafe, elementor, addons, food
 Requires PHP: 7.4
 Requires at least: 6.0
 Tested up to: 6.7.1
-Stable tag: 1.6.0
+Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -138,6 +138,10 @@ No, it'll not work without Elementor Page Builder, it's an addon for Elementor.
 7. Benefits Widget
 
 == Changelog ==
+
+= 1.6.1
+
+* Freemius SDK updated
 
 = 1.6.0
 
