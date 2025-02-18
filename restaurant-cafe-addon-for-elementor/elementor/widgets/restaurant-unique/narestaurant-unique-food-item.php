@@ -44,7 +44,7 @@ if (!isset(get_option( 'rcafe_uw_settings' )['nbeds_food_item'])) { // enable & 
 		 * Register Restaurant & Cafe Addon for Elementor Pro Food Item widget controls.
 		 * Adds different input fields to allow the user to change and customize the widget settings.
 		*/
-		protected function _register_controls(){
+		protected function register_controls(){
 
 			$this->start_controls_section(
 				'section_food_item',

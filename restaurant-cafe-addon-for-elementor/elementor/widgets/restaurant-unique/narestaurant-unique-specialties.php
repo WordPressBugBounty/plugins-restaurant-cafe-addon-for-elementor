@@ -44,7 +44,7 @@ class Restaurant_Elementor_Addon_Unique_Specialties extends Widget_Base{
 	 * Register Restaurant & Cafe Addon for Elementor Specialties widget controls.
 	 * Adds different input fields to allow the user to change and customize the widget settings.
 	*/
-	protected function _register_controls(){
+	protected function register_controls(){
 
 		$this->start_controls_section(
 			'section_specialties',

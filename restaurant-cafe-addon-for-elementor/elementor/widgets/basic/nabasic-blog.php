@@ -44,7 +44,7 @@ class Restaurant_Elementor_Addon_Blog extends Widget_Base{
 	 * Register Restaurant & Cafe Addon for Elementor Blog widget controls.
 	 * Adds different input fields to allow the user to change and customize the widget settings.
 	*/
-	protected function _register_controls(){
+	protected function register_controls(){
 
 		$posts = get_posts( 'post_type="post"&numberposts=-1' );
     $PostID = array();

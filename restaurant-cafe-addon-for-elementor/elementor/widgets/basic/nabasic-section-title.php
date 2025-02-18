@@ -44,7 +44,7 @@ class Restaurant_Elementor_Addon_SectionTitle extends Widget_Base{
 	 * Register Restaurant & Cafe Addon for Elementor Section Title widget controls.
 	 * Adds different input fields to allow the user to change and customize the widget settings.
 	*/
-	protected function _register_controls(){
+	protected function register_controls(){
 
 		$this->start_controls_section(
 			'section_opt',

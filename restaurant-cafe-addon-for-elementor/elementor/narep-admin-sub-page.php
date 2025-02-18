@@ -78,7 +78,7 @@ if ( ! function_exists( 'narep_admin_sub_page' ) ) {
                             </h4>
                             <div class="narep-checkbox-toggle narep-field">
                               <label class="switch">
-                                <input type="checkbox" <?php checked( $rcafe_bw_settings['nbeds_' . $id], 1 ); ?> name="nbeds_<?php echo esc_attr($id); ?>" id="nbeds_<?php echo esc_attr($id); ?>-id" value="1">
+                                <input type="checkbox" <?php if(isset($rcafe_bw_settings['nbeds_' . $id])) { checked( $rcafe_bw_settings['nbeds_' . $id], 1 ); } ?> name="nbeds_<?php echo esc_attr($id); ?>" id="nbeds_<?php echo esc_attr($id); ?>-id" value="1">
                                 <span class="slider round"></span>
                               </label>
                             </div>
@@ -143,7 +143,7 @@ if ( ! function_exists( 'narep_admin_sub_page' ) ) {
                               } ?>
                               <img class="img-toggle <?php echo $plan_class; ?>" src="<?php echo NAREP_URL . 'assets/images/toggle.png'; ?>" alt="toggle">
                               <label class="switch main-toggle <?php echo $plan_class; ?>">
-                                <input type="checkbox" <?php checked( $rcafe_uw_settings['nbeds_' . $id], 1 ); ?> name="nbeds_<?php echo esc_attr($id); ?>" id="nbeds_<?php echo esc_attr($id); ?>-id" value="1">
+                                <input type="checkbox" <?php if(isset($rcafe_uw_settings['nbeds_' . $id])) { checked( $rcafe_uw_settings['nbeds_' . $id], 1 ); } ?> name="nbeds_<?php echo esc_attr($id); ?>" id="nbeds_<?php echo esc_attr($id); ?>-id" value="1">
                                 <span class="slider round"></span>
                               </label>
                             </div>
