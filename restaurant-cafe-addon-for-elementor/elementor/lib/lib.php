@@ -72,7 +72,7 @@ if ( ! function_exists( 'narestaurant_insert_elementor' ) ) {
             return '';
         }
     }
-    add_shortcode('narestaurant_elementor_template', 'narestaurant_insert_elementor');
+    add_shortcode('narestaurant_elementor_template', 'Elementor\narestaurant_insert_elementor');
 }
 
 if ( !class_exists('NAREP_Controls_Helper_Output') ){
